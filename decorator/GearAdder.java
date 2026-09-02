@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 /** Base decorator that adds one ASCII-art gear layer to a player. */
 public abstract class GearAdder extends Player {
+
     /**
      * Copies a player's drawing and overlays a gear drawing line by line.
      *
@@ -14,17 +15,43 @@ public abstract class GearAdder extends Player {
         super(addGear(player.character, gear), player.getName());
     }
 
-    /** Combines matching lines so all gear stays visible on the same drawing. */
+    /**
+     * Overlays the gear artwork on the current player artwork.
+     * A non-space character from the gear replaces the character beneath it.
+     *
+     * @param character the current player drawing
+     * @param gear the new gear drawing
+     * @return the combined drawing
+     */
     protected static ArrayList<String> addGear(ArrayList<String> character,
                                                 ArrayList<String> gear) {
         ArrayList<String> combined = new ArrayList<String>();
-        int longestDrawing = Math.max(character.size(), gear.size());
+        int numberOfLines = Math.max(character.size(), gear.size());
 
-        for (int i = 0; i < longestDrawing; i++) {
+        for (int i = 0; i < numberOfLines; i++) {
             String characterLine = i < character.size() ? character.get(i) : "";
             String gearLine = i < gear.size() ? gear.get(i) : "";
-            combined.add(gearLine + characterLine);
+
+            int lineLength = Math.max(characterLine.length(), gearLine.length());
+            StringBuilder newLine = new StringBuilder();
+
+            for (int j = 0; j < lineLength; j++) {
+                char characterChar = j < characterLine.length()
+                        ? characterLine.charAt(j) : ' ';
+
+                char gearChar = j < gearLine.length()
+                        ? gearLine.charAt(j) : ' ';
+
+                if (gearChar != ' ') {
+                    newLine.append(gearChar);
+                } else {
+                    newLine.append(characterChar);
+                }
+            }
+
+            combined.add(newLine.toString());
         }
+
         return combined;
     }
 }
