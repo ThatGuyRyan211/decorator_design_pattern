@@ -1,3 +1,6 @@
+/*
+Author: Ryan Callahan
+*/
 package decorator;
 
 /** Adds the armor ASCII art to a player. */

@@ -1,3 +1,7 @@
+/*
+Author: Ryan Callahan
+*/
+
 package decorator;
 
 import decorator.Player;
